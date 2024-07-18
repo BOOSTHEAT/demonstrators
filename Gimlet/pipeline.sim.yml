@@ -1,0 +1,16 @@
+name: $(Year:yyyy).$(Month).$(DayOfMonth).$(Rev:r)
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - Gimlet/Gimlet.PlcSim/*
+      - application-pipeline-template.yml
+
+extends:
+  template: ../application-pipeline-template.yml
+  parameters:
+    applicationName: Gimlet.PlcSim
+    applicationPath: Gimlet/Gimlet.PlcSim/src/Gimlet.PlcSim.csproj
+    applicationFolder: Gimlet/Gimlet.PlcSim

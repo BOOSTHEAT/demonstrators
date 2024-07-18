@@ -1,0 +1,72 @@
+parameters:
+  - name: applicationName
+    type: string
+  - name: applicationPath
+    type: string
+  - name: applicationFolder
+    type: string
+
+resources:
+  pipelines:
+    - pipeline: RUNTIME
+      project: ImpliciX
+      source: runtime
+      branch: master
+      trigger: none
+
+stages:
+  - stage: regularBuild
+    jobs:
+      - job: regularBuild
+        pool:
+          vmImage: 'ubuntu-latest'
+        
+        variables:
+          buildConfiguration: 'Release'
+                  
+        steps:
+        - template: azure-pipelines-template-dotnet-setup.yml
+                
+        - task: DotNetCoreCLI@2
+          displayName: Restore
+          inputs:
+            command: restore
+            projects: ${{ parameters.applicationPath }}
+            feedsToUse: 'config'
+            nugetConfigPath : "./NuGet.Config"
+        
+        - task: DotNetCoreCLI@2
+          displayName: Build
+          inputs:
+            command: build
+            projects: ${{ parameters.applicationPath }}
+            arguments: -c $(buildConfiguration) /p:Version=$(Build.BuildNumber)
+
+        - template: azure-pipelines-template-language-tag.yml
+        
+        - task: DotNetCoreCLI@2
+          inputs:
+            command: test
+            projects: ${{ parameters.applicationFolder }}/**/tests/*.csproj
+            arguments: -c $(buildConfiguration) --filter TestCategory!=ExcludeFromCI --logger "trx" /p:CollectCoverage=true /p:CoverletOutputFormat=cobertura
+          displayName: Run Tests
+        
+        - task: DotNetCoreCLI@2
+          inputs:
+            command: custom
+            custom: pack
+            arguments: ${{ parameters.applicationPath }} -c $(buildConfiguration) -o $(Build.ArtifactStagingDirectory) -p:PackageVersion=$(Build.BuildNumber) /p:Version=$(Build.BuildNumber) --no-build -p:PackageId=Demo.${{ parameters.applicationName }}
+          displayName: Create nupkg
+        
+        - publish: '$(Build.ArtifactStagingDirectory)'
+          artifact: "Application_${{ parameters.applicationName }}"
+          displayName: Publish artifacts
+        
+        - task: NuGetCommand@2
+          inputs:
+            command: push
+            feedsToUse: select
+            packagesToPush: '$(Build.ArtifactStagingDirectory)/*.nupkg'
+            nuGetFeedType: internal
+            publishVstsFeed: 'ImpliciX Demonstrators/Demonstrations'
+          displayName: Publish to artifacts feed

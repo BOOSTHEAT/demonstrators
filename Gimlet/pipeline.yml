@@ -1,0 +1,17 @@
+name: $(Year:yyyy).$(Month).$(DayOfMonth).$(Rev:r)
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - Gimlet/*
+      - application-pipeline-template.yml
+      - 
+
+extends:
+  template: ../application-pipeline-template.yml
+  parameters:
+    applicationName: Gimlet
+    applicationPath: Gimlet/Gimlet.App/src/Gimlet.App.csproj
+    applicationFolder: Gimlet/Gimlet.App

@@ -1,0 +1,7 @@
+<Project>
+
+    <ItemGroup>
+        <PackageReference Include="ImpliciX.Runtime" Version="*"/>
+    </ItemGroup>
+
+</Project>

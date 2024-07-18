@@ -1,0 +1,10 @@
+key,en,fr
+Confirm,Confirm,Valider
+Cancel,Cancel,Annuler
+ProductionReports,Production Reports,Suivi de production
+NewProductionReport,New Production Report,Nouveau suivi de production
+general:report:title,Title,Titre
+general:report:summary,Summary,Résumé
+Mode.Automatic,Automatic,Automatique
+Mode.ForceEmptying,Force Emptying,Vidange forcée
+Mode.ForceFilling,Force Filling,Remplissage forcé

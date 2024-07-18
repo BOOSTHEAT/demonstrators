@@ -1,0 +1,18 @@
+name: $(Year:yyyy).$(Month).$(DayOfMonth).$(Rev:r)
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - Caliper/*
+      - application-pipeline-template.yml
+      - 
+
+extends:
+  template: ../application-pipeline-template.yml
+  parameters:
+    applicationName: Caliper
+    applicationPath: Caliper/Caliper.App/src/Caliper.App.csproj
+    applicationFolder: Caliper/Caliper.App
+    

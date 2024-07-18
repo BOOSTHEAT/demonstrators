@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <LangVersion>default</LangVersion>
+        <RootNamespace>BOOSTHEAT.Applications.Training.Timer</RootNamespace>
+    </PropertyGroup>
+
+    <Import Project="..\..\..\Language.targets" />
+
+    <ItemGroup>
+        <None Update="appsettings.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+        </None>
+    </ItemGroup>
+
+</Project>

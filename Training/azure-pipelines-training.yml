@@ -1,0 +1,38 @@
+name: $(Year:yyyy).$(Month).$(Rev:r)
+trigger:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - Training/*
+      - shared/*
+
+stages:
+
+- stage: buildTrainings
+  jobs:
+  - job: buildTrainings
+    pool:
+      vmImage: 'ubuntu-latest'
+
+    variables:
+      buildConfiguration: 'Release'
+
+    steps:
+    - template: ../azure-pipelines-template-dotnet-setup.yml
+
+    - task: DotNetCoreCLI@2
+      displayName: Restore
+      inputs:
+        command: restore
+        projects: "Training/**/*.csproj"
+        feedsToUse: 'config'
+        nugetConfigPath : "./NuGet.Config"
+
+    - task: DotNetCoreCLI@2
+      displayName: Build
+      inputs:
+        command: build
+        projects: "Training/**/*.csproj"
+        arguments: -c $(buildConfiguration)

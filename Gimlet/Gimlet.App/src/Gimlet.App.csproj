@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <Import Project="..\..\..\Language.targets" />
+
+    <ItemGroup>
+      <None Update="build.sh">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Gimlet.Model\src\Gimlet.Model.csproj" PrivateAssets="all" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="appsettings.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <Pack>true</Pack>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </None>
+    </ItemGroup>
+
+    <PropertyGroup>
+        <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludePrivateDependenciesInNupkg</TargetsForTfmSpecificBuildOutput>
+    </PropertyGroup>
+    <Target Name="IncludePrivateDependenciesInNupkg">
+        <ItemGroup>
+            <BuildOutputInPackage Include="$(OutputPath)*.dll" Exclude="$(TargetPath)" />
+        </ItemGroup>
+    </Target>
+
+    <ItemGroup>
+        <EmbeddedResource Include="Assets\*" />
+    </ItemGroup>
+    
+</Project>
+

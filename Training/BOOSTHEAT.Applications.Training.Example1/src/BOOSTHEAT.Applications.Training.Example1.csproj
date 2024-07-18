@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <LangVersion>default</LangVersion>
+    </PropertyGroup>
+
+    <Import Project="..\..\..\Language.targets" />
+
+    <ItemGroup>
+      <None Update="appsettings.json">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="assets\menu\main.png" />
+      <EmbeddedResource Include="assets\menu\details.png" />
+      <EmbeddedResource Include="assets\state\stopped.png" />
+      <EmbeddedResource Include="assets\state\running.gif" />
+    </ItemGroup>
+
+</Project>

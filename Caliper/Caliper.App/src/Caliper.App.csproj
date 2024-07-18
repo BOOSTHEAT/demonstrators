@@ -1,0 +1,42 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <Import Project="..\..\..\Language.targets" />
+
+    <ItemGroup>
+      <None Update="build.sh">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\..\Caliper.Model\src\Caliper.Model.csproj" PrivateAssets="all" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="appsettings.json">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <Pack>true</Pack>
+            <PackageCopyToOutput>true</PackageCopyToOutput>
+        </None>
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Include="GUI\Assets\*" />
+    </ItemGroup>
+
+    <PropertyGroup>
+        <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludePrivateDependenciesInNupkg</TargetsForTfmSpecificBuildOutput>
+    </PropertyGroup>
+    <Target Name="IncludePrivateDependenciesInNupkg">
+        <ItemGroup>
+            <BuildOutputInPackage Include="$(OutputPath)*.dll" Exclude="$(TargetPath)" />
+        </ItemGroup>
+    </Target>
+    
+</Project>
+
